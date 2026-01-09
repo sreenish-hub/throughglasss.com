@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Sitemap: https://sreenish-hub.github.io/throughglasss.com/sitemap.xml
