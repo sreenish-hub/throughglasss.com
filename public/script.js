@@ -107,9 +107,8 @@ async function handleContactSubmit(e) {
   btn.disabled = true;
   
   try {
-    // Using Formspree - Replace YOUR_FORM_ID with actual ID from formspree.io
-    const FORMSPREE_ID = 'https://formspree.io/f/mqeezkbz'; // Set this after creating form on formspree.io
-    const formspreeUrl = `https://formspree.io/f/${FORMSPREE_ID}`;
+    // FIXED: Use the full Formspree URL directly
+    const formspreeUrl = 'https://formspree.io/f/mqeezkbz';
     
     const response = await fetch(formspreeUrl, {
       method: 'POST',
