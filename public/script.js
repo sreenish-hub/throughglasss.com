@@ -4,7 +4,8 @@ const PRESETS_DATA = [
     id: 1,
     name: 'Golden Hour',
     desc: 'Warm, cinematic color grading for portrait & outdoor storytelling',
-    img: '/images/golden-hour.jpg',
+    img: 'linear-gradient(135deg, #D4AF37 0%, #FFD700 100%)',
+    isGradient: true,
     price: '$29',
     link: 'https://gumroad.com/throughglasss'
   },
@@ -12,7 +13,8 @@ const PRESETS_DATA = [
     id: 2,
     name: 'Midnight Blue',
     desc: 'Deep, moody tones perfect for dramatic cinematic looks',
-    img: '/images/midnight-blue.jpg',
+    img: 'linear-gradient(135deg, #1a1a3e 0%, #0d47a1 100%)',
+    isGradient: true,
     price: '$29',
     link: 'https://gumroad.com/throughglasss'
   },
@@ -20,7 +22,8 @@ const PRESETS_DATA = [
     id: 3,
     name: 'Vintage Film',
     desc: 'Classic analog film stock emulation for nostalgic aesthetics',
-    img: '/images/vintage-film.jpg',
+    img: 'linear-gradient(135deg, #8B6914 0%, #D4AF37 100%)',
+    isGradient: true,
     price: '$29',
     link: 'https://gumroad.com/throughglasss'
   }
@@ -38,8 +41,7 @@ function loadStore() {
   }
   
   track.innerHTML = data.map(p => `
-    <div class="preset-card">
-      <img src="${p.img}" alt="${p.name}" loading="lazy">
+    <div class="preset-card" style="background: ${p.isGradient ? p.img : 'url(' + p.img + ')'} !important; background-size: cover; background-position: center;">
       <div class="card-overlay">
         <h3>${p.name}</h3>
         <p>${p.desc}</p>
