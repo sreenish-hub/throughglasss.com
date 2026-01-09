@@ -1,112 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>throughglasss | Premium Editing Assets</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <nav class="navbar">
-      <div class="container nav-content">
-        <div class="logo">through<span>glasss</span></div>
-        <ul class="nav-links">
-          <li><a href="#presets">Collections</a></li>
-          <li><a href="#impact">The Impact</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </div>
-    </nav>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>throughglasss | Premium Editing Assets</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #1a1a1a; color: #fff; font-family: 'Inter', sans-serif; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    .navbar { padding: 20px 0; border-bottom: 1px solid #333; }
+    .nav-content { display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 24px; font-weight: bold; }
+    .logo span { color: #D4AF37; }
+    .nav-links { display: flex; list-style: none; gap: 40px; }
+    .nav-links a { color: #fff; text-decoration: none; }
+    .hero { padding: 100px 0; text-align: center; }
+    .hero h1 { font-size: 56px; margin: 20px 0; line-height: 1.3; }
+    .hero h1 span { color: #D4AF37; }
+    .hero p { font-size: 18px; color: #999; margin: 20px 0; }
+    .btn-primary { display: inline-block; background: #D4AF37; color: #000; padding: 12px 30px; text-decoration: none; border-radius: 4px; margin-top: 20px; }
+    .section-title { font-size: 36px; margin-bottom: 40px; }
+    .presets-section { padding: 80px 0; }
+    .preset-card { background: #222; padding: 20px; border-radius: 8px; text-align: center; }
+    .preset-card h3 { margin: 10px 0; }
+    .preset-card p { font-size: 14px; color: #999; }
+    .form-input-group { display: grid; gap: 15px; margin-bottom: 15px; }
+    .lux-input { background: #222; border: 1px solid #333; padding: 12px; color: #fff; border-radius: 4px; }
+    .btn-submit { background: #D4AF37; color: #000; padding: 12px 30px; border: none; border-radius: 4px; cursor: pointer; }
+    .impact-section { padding: 80px 0; }
+    .contact-section { padding: 80px 0; }
+    .footer { padding: 40px 0; border-top: 1px solid #333; text-align: center; color: #666; }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container nav-content">
+      <div class="logo">through<span>glasss</span></div>
+      <ul class="nav-links">
+        <li><a href="#presets">Collections</a></li>
+        <li><a href="#impact">The Impact</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
 
-    <header class="hero">
-      <div class="container">
-        <p class="uppercase tracking-[4px] text-xs text-[#D4AF37] mb-6">
-          Premium Assets
-        </p>
-        <h1>Through the glass, <br />into the <span>soul</span>.</h1>
-        <p>
-          Cinematic color grading tools crafted for storytellers who demand
-          excellence.
-        </p>
-        <a href="#presets" class="btn-primary">Explore Collections</a>
-      </div>
-    </header>
+  <header class="hero">
+    <div class="container">
+      <p style="color: #D4AF37; font-size: 12px; margin-bottom: 20px;">PREMIUM ASSETS</p>
+      <h1>Through the glass, <br/>into the <span>soul</span>.</h1>
+      <p>Cinematic color grading tools crafted for storytellers who demand excellence.</p>
+      <a href="#presets" class="btn-primary">Explore Collections</a>
+    </div>
+  </header>
 
-    <section id="presets" class="presets-section">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">Trending Collections</h2>
-          <div class="carousel-nav">
-            <button id="prevBtn" aria-label="Previous">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M20 12H4M4 12L10 6M4 12L10 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/>
-              </svg>
-            </button>
-            <button id="nextBtn" aria-label="Next">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 12H20M20 12L14 6M20 12L14 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-        <div class="carousel-container">
-          <div class="presets-track" id="track">
-            <div class="text-gray-500">Loading inventory...</div>
-          </div>
-        </div>
+  <section id="presets" class="presets-section">
+    <div class="container">
+      <h2 class="section-title">Trending Collections</h2>
+      <div id="track" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+        <div class="text-gray-500">Loading inventory...</div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="impact" class="impact-section">
-      <div class="container">
-        <div class="text-center mb-12">
-          <h2 class="section-title">The Impact</h2>
-          <p class="text-gray-500 mt-2">Drag to compare raw versus graded.</p>
-        </div>
-        <div class="impact-container" id="impact-slider">
-          <div class="img-background"></div>
-          <div class="img-foreground" id="slider-reveal"></div>
-          <div class="slider-handle" id="slider-knob"></div>
-        </div>
+  <section id="impact" class="impact-section">
+    <div class="container">
+      <h2 class="section-title" style="text-align: center;">The Impact</h2>
+      <p style="text-align: center; color: #999; margin-bottom: 30px;">Drag to compare raw versus graded.</p>
+      <div id="impact-slider" style="position: relative; width: 100%; height: 400px; overflow: hidden; border-radius: 8px; background: #222;">
+        <div class="img-background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><rect fill=%22%23333%22 width=%22100%22 height=%22100%22/></svg>'); display: flex; align-items: center; justify-content: center; color: #666;">Before (Raw)</div>
+        <div id="slider-reveal" style="position: absolute; top: 0; left: 0; width: 50%; height: 100%; overflow: hidden; background: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%22100%22><rect fill=%22%236b5b3a%22 width=%22100%22 height=%22100%22/></svg>'); display: flex; align-items: center; justify-content: center; color: #D4AF37;">After (Graded)</div>
+        <div id="slider-knob" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 4px; height: 100%; background: #D4AF37; cursor: col-resize;"></div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="contact" class="contact-section">
-      <div class="container grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+  <section id="contact" class="contact-section">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px;">
         <div>
-          <h2 class="text-4xl font-serif text-white mb-6">Let's Create.</h2>
-          <p class="text-gray-400 text-lg leading-relaxed">
-            Have questions about installation or need a custom color profile?
-            Reach out directly. We usually respond within 24 hours.
-          </p>
-          <div class="mt-8 text-[#D4AF37]">support@throughglasss.com</div>
+          <h2 style="font-size: 36px; margin-bottom: 20px;">Let's Create.</h2>
+          <p style="color: #999; font-size: 16px; line-height: 1.6; margin-bottom: 20px;">Have questions about installation or need a custom color profile? Reach out directly. We usually respond within 24 hours.</p>
+          <div style="color: #D4AF37; font-size: 18px;">support@throughglasss.com</div>
         </div>
-
         <form onsubmit="handleContactSubmit(event)">
           <div class="form-input-group">
-            <input type="text" id="contact-name" placeholder="Name" required class="lux-input" />
-            <input type="email" id="contact-email" placeholder="Email" required class="lux-input" />
+            <input type="text" id="contact-name" placeholder="Name" required class="lux-input">
+            <input type="email" id="contact-email" placeholder="Email" required class="lux-input">
           </div>
           <textarea id="contact-message" placeholder="How can we help?" rows="3" required class="lux-input"></textarea>
           <button type="submit" id="send-btn" class="btn-submit">Send Message</button>
         </form>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <footer class="footer">
-      <div class="container">
-        <div class="logo mb-4 opacity-50">through<span>glasss</span></div>
-        <p>&copy; 2025 throughglasss. Made for storytellers.</p>
-      </div>
-    </footer>
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 throughglasss. Made for storytellers.</p>
+    </div>
+  </footer>
 
-    <script src="script.js"></script>
-  </body>
+  <script src="script.js"></script>
+</body>
 </html>
