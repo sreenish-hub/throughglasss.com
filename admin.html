@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>throughglasss | Admin Panel</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #020202; color: white; font-family: 'Inter', sans-serif; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        
+        /* Login */
+        .login-container { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        .login-box { background: #0a0a0a; border: 1px solid #333; padding: 40px; border-radius: 8px; width: 100%; max-width: 400px; }
+        .login-box h2 { color: #D4AF37; margin-bottom: 30px; text-align: center; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-size: 14px; }
+        .form-group input { width: 100%; padding: 12px; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 4px; }
+        .form-group input:focus { outline: none; border-color: #D4AF37; }
+        .btn { width: 100%; padding: 12px; background: #D4AF37; color: black; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        .btn:hover { background: #FFD700; }
+        .error { color: #ff4444; margin-top: 10px; text-align: center; }
+        
+        /* Dashboard */
+        .dashboard { display: none; }
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid #333; margin-bottom: 30px; }
+        .header h1 { color: #D4AF37; }
+        .logout-btn { padding: 8px 20px; background: #333; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .logout-btn:hover { background: #555; }
+        
+        /* Presets Grid */
+        .presets-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .preset-card { background: #1a1a1a; border: 1px solid #333; padding: 20px; border-radius: 8px; }
+        .preset-card h3 { color: #D4AF37; margin-bottom: 10px; }
+        .preset-card p { font-size: 13px; color: #999; margin-bottom: 15px; }
+        .preset-actions { display: flex; gap: 10px; }
+        .edit-btn, .delete-btn { padding: 8px 16px; border: none; border-radius: 4px; cursor: pointer; }
+        .edit-btn { background: #D4AF37; color: black; }
+        .delete-btn { background: #ff4444; color: white; }
+        
+        /* Form */
+        .form-section { background: #1a1a1a; border: 1px solid #333; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .form-section h3 { color: #D4AF37; margin-bottom: 20px; }
+        textarea { width: 100%; padding: 12px; background: #0a0a0a; border: 1px solid #333; color: white; border-radius: 4px; resize: vertical; }
+        textarea:focus { outline: none; border-color: #D4AF37; }
+        .btn-submit { margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-box">
+            <h2>Admin Access</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="btn">Login</button>
+                <div id="loginError" class="error"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="dashboard">
+        <div class="container">
+            <div class="header">
+                <h1>Inventory Manager</h1>
+                <button class="logout-btn" id="logoutBtn">Logout</button>
+            </div>
+
+            <!-- Add Preset Form -->
+            <div class="form-section">
+                <h3>Add New Preset</h3>
+                <form id="addPresetForm">
+                    <div class="form-group">
+                        <label for="presetName">Name</label>
+                        <input type="text" id="presetName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="presetDesc">Description</label>
+                        <textarea id="presetDesc" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="presetPrice">Price</label>
+                        <input type="text" id="presetPrice" placeholder="e.g., $29" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="presetLink">Gumroad Link</label>
+                        <input type="url" id="presetLink" required>
+                    </div>
+                    <button type="submit" class="btn btn-submit">Add Preset</button>
+                </form>
+            </div>
+
+            <!-- Presets Grid -->
+            <div>
+                <h3 style="color: #D4AF37; margin-bottom: 20px;">Current Presets</h3>
+                <div id="presetsGrid" class="presets-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'https://your-vercel-domain.vercel.app/api';
+        // Update this to your actual Vercel API URL after deployment
+        
+        let token = localStorage.getItem('adminToken');
+
+        // Check if logged in on page load
+        if (token) {
+            showDashboard();
+            loadPresets();
+        }
+
+        // Login Form
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    token = data.token;
+                    localStorage.setItem('adminToken', token);
+                    showDashboard();
+                    loadPresets();
+                } else {
+                    document.getElementById('loginError').textContent = '❌ Invalid credentials';
+                }
+            } catch (err) {
+                document.getElementById('loginError').textContent = '❌ Connection error. Make sure API URL is correct.';
+            }
+        });
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.removeItem('adminToken');
+            token = null;
+            location.reload();
+        });
+
+        // Add Preset
+        document.getElementById('addPresetForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const preset = {
+                name: document.getElementById('presetName').value,
+                desc: document.getElementById('presetDesc').value,
+                price: document.getElementById('presetPrice').value,
+                link: document.getElementById('presetLink').value
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/presets`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(preset)
+                });
+
+                if (response.ok) {
+                    alert('✅ Preset added!');
+                    document.getElementById('addPresetForm').reset();
+                    loadPresets();
+                } else {
+                    alert('❌ Error adding preset');
+                }
+            } catch (err) {
+                alert('❌ Connection error');
+            }
+        });
+
+        // Load Presets
+        async function loadPresets() {
+            try {
+                const response = await fetch(`${API_URL}/presets`);
+                const presets = await response.json();
+
+                document.getElementById('presetsGrid').innerHTML = presets.map(p => `
+                    <div class="preset-card">
+                        <h3>${p.name}</h3>
+                        <p>${p.desc}</p>
+                        <p><strong>${p.price}</strong></p>
+                        <div class="preset-actions">
+                            <button class="edit-btn" onclick="editPreset(${p.id})">Edit</button>
+                            <button class="delete-btn" onclick="deletePreset(${p.id})">Delete</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error('Error loading presets:', err);
+            }
+        }
+
+        // Delete Preset
+        async function deletePreset(id) {
+            if (!confirm('Are you sure?')) return;
+
+            try {
+                const response = await fetch(`${API_URL}/presets/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (response.ok) {
+                    loadPresets();
+                } else {
+                    alert('❌ Error deleting preset');
+                }
+            } catch (err) {
+                alert('❌ Connection error');
+            }
+        }
+
+        // Edit Preset (placeholder)
+        function editPreset(id) {
+            alert('Edit feature coming soon!');
+        }
+
+        // UI Functions
+        function showDashboard() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
