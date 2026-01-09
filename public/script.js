@@ -90,64 +90,6 @@ function initComparisonSlider() {
   container.addEventListener('touchmove', move);
 }
 
-// 4. CONTACT FORM - Simple local validation
-async function handleContactSubmit(e) {
-  e.preventDefault();
-  const btn = document.getElementById('send-btn');
-  const originalText = btn.innerText;
-  const form = e.target;
-  
-  const name = document.getElementById('contact-name').value;
-  const email = document.getElementById('contact-email').value;
-  const message = document.getElementById('contact-message').value;
-  
-  // Validate email format
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    alert('❌ Please enter a valid email address.');
-    return;
-  }
-  
-  if (!message.trim()) {
-    alert('❌ Message cannot be empty.');
-    return;
-  }
-  
-  btn.innerText = "Sending...";
-  btn.disabled = true;
-  
-  try {
-    // Send to Formspree - CORS enabled service
-    const response = await fetch('https://formspree.io/f/mqeezkbz', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: name,
-        email: email,
-        message: message,
-        _subject: `New message from ${name} (${email})`
-      })
-    });
-    
-    if (response.ok || response.status === 200) {
-      alert('✅ Message sent successfully! We\'ll respond within 24 hours.');
-      form.reset();
-    } else {
-      alert('❌ Error sending message. Please try again.');
-    }
-  } catch (err) {
-    console.error('Error:', err);
-    // Fallback: Show user they can email directly
-    alert('⚠️ Unable to send via form. Please email us directly:\nsupport@throughglasss.com');
-  } finally {
-    btn.innerText = originalText;
-    btn.disabled = false;
-  }
-}
-
 // INIT - Run on page load
 document.addEventListener('DOMContentLoaded', () => {
   loadStore();

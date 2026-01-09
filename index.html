@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: 'unsafe-inline' 'unsafe-eval'; script-src 'self' https: 'unsafe-inline'; style-src 'self' https: 'unsafe-inline'; img-src 'self' https: data:; font-src 'self' https: data:;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:;">
   <meta name="google-site-verification" content="EZrC4M26OxHYxNHanBU95_GifditEJmK0unKr8atugk" />
   <title>throughglasss | Premium Editing Assets</title>
   <link rel="stylesheet" href="/styles.css">
@@ -83,16 +83,18 @@
         <div>
           <h2 style="font-size: 36px; margin-bottom: 20px;">Let's Create.</h2>
           <p style="color: #999; font-size: 16px; line-height: 1.6; margin-bottom: 20px;">Have questions about installation or need a custom color profile? Reach out directly. We usually respond within 24 hours.</p>
-          <div style="color: #D4AF37; font-size: 18px;">support@throughglasss.com</div>
+          <a href="mailto:support@throughglasss.com" style="display: inline-block; color: #D4AF37; font-size: 18px; margin-top: 20px; padding: 16px 40px; border: 1px solid #D4AF37; border-radius: 4px; text-decoration: none; transition: all 0.3s;">Send Email</a>
         </div>
-        <form onsubmit="handleContactSubmit(event)">
-          <div class="form-input-group">
-            <input type="text" id="contact-name" placeholder="Name" required class="lux-input">
-            <input type="email" id="contact-email" placeholder="Email" required class="lux-input">
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <div>
+            <h3 style="color: #fff; margin-bottom: 10px;">Email</h3>
+            <a href="mailto:support@throughglasss.com" style="color: #D4AF37; text-decoration: none;">support@throughglasss.com</a>
           </div>
-          <textarea id="contact-message" placeholder="How can we help?" rows="3" required class="lux-input"></textarea>
-          <button type="submit" id="send-btn" class="btn-submit">Send Message</button>
-        </form>
+          <div>
+            <h3 style="color: #fff; margin-bottom: 10px;">Response Time</h3>
+            <p style="color: #999;">Usually within 24 hours</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
