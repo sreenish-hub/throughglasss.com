@@ -83,8 +83,16 @@
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px;">
         <div>
           <h2 style="font-size: 36px; margin-bottom: 20px;">Let's Create.</h2>
-          <p style="color: #999; font-size: 16px; line-height: 1.6; margin-bottom: 20px;">Have questions about installation or need a custom color profile? Reach out directly. We usually respond within 24 hours.</p>
-          <a href="mailto:support@throughglasss.com" style="display: inline-block; color: #D4AF37; font-size: 18px; margin-top: 20px; padding: 16px 40px; border: 1px solid #D4AF37; border-radius: 4px; text-decoration: none; transition: all 0.3s;">Send Email</a>
+          <p style="color: #999; font-size: 16px; line-height: 1.6; margin-bottom: 20px;">Have questions about installation or need a custom color profile? Use the form and we'll reply within 24 hours.</p>
+          <form id="contactForm">
+            <div style="display:grid; gap:12px;">
+              <input type="text" id="contactName" placeholder="Your name" required style="padding:12px; border-radius:4px; background:#0a0a0a; border:1px solid #333; color:#fff;" />
+              <input type="email" id="contactEmail" placeholder="Email" required style="padding:12px; border-radius:4px; background:#0a0a0a; border:1px solid #333; color:#fff;" />
+              <textarea id="contactMessage" rows="5" placeholder="Your message" required style="padding:12px; border-radius:4px; background:#0a0a0a; border:1px solid #333; color:#fff;"></textarea>
+              <button type="submit" style="background:#D4AF37; color:#000; padding:12px 20px; border:none; border-radius:4px; cursor:pointer;">Send Message</button>
+              <div id="contactResult" style="color:#D4AF37; margin-top:8px;"></div>
+            </div>
+          </form>
         </div>
         <div style="display: flex; flex-direction: column; gap: 20px;">
           <div>
@@ -107,5 +115,40 @@
   </footer>
 
   <script src="/script.js"></script>
+  <script>
+    // Contact form handler - posts to /api/contact
+    document.addEventListener('DOMContentLoaded', () => {
+      const contactForm = document.getElementById('contactForm');
+      if (!contactForm) return;
+      contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = document.getElementById('contactName').value;
+        const email = document.getElementById('contactEmail').value;
+        const message = document.getElementById('contactMessage').value;
+        const result = document.getElementById('contactResult');
+        result.textContent = '';
+
+        try {
+          const resp = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, message })
+          });
+          const body = await resp.json();
+          if (resp.ok) {
+            result.style.color = '#D4AF37';
+            result.textContent = 'Message sent — thank you!';
+            contactForm.reset();
+          } else {
+            result.style.color = '#ff4444';
+            result.textContent = body.error || 'Failed to send message';
+          }
+        } catch (err) {
+          result.style.color = '#ff4444';
+          result.textContent = 'Connection error. Try again later.';
+        }
+      });
+    });
+  </script>
 </body>
 </html>

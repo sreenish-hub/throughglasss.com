@@ -33,21 +33,30 @@ const PRESETS_DATA = [
 function loadStore() {
   const track = document.getElementById('track');
   if(!track) return;
-  
-  const data = PRESETS_DATA;
-  if(data.length === 0) {
+  // Prefer backend data when available (same-origin /api)
+  fetch('/api/presets')
+    .then(r => r.json())
+    .then(data => renderPresets(track, data))
+    .catch(err => {
+      console.warn('Could not fetch presets from API, falling back to local data', err);
+      renderPresets(track, PRESETS_DATA);
+    });
+}
+
+function renderPresets(track, data) {
+  if(!Array.isArray(data) || data.length === 0) {
     track.innerHTML = '<p class="text-gray-500">No presets available. Check back soon!</p>';
     return;
   }
-  
+
   track.innerHTML = data.map(p => `
-    <div class="preset-card" style="background: ${p.isGradient ? p.img : 'url(' + p.img + ')'} !important; background-size: cover; background-position: center;">
+    <div class="preset-card" style="background: ${p.isGradient ? p.img : 'url(' + (p.img || '') + ')'} !important; background-size: cover; background-position: center;">
       <div class="card-overlay">
         <h3>${p.name}</h3>
         <p>${p.desc}</p>
         <div class="price-row">
-          <span>${p.price}</span>
-          <a href="${p.link}" target="_blank" class="text-white border-b border-white text-sm">GET IT</a>
+          <span>${p.price || ''}</span>
+          <a href="${p.link || '#'}" target="_blank" class="text-white border-b border-white text-sm">GET IT</a>
         </div>
       </div>
     </div>

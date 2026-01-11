@@ -107,8 +107,8 @@
     </div>
 
     <script>
-        // Update this URL after deploying to Vercel
-        const API_URL = 'http://localhost:3000/api';
+        // Use relative API path so same-origin deployments work (`/api` routed to backend)
+        const API_URL = '/api';
         // Update this to your actual Vercel API URL after deployment
         
         let token = localStorage.getItem('adminToken');
